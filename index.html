@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://unpkg.com/element-ui@2.14.1/lib/index.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/element-ui@2.14.1/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="./static/style/reset.css">
+<link rel="stylesheet" href="./static/style/index.css">
+<body>
+    <div id="app">
+        <el-row>
+            <el-col :span="9">
+                <el-form v-model="postForm" label-width="150px">
+                    <el-form-item label="Name:">
+                        <el-input v-model="postForm.name" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="D.O.B:">
+                        <el-date-picker class="w-100" value-format="yyyy-MM-dd" v-model="postForm.DOB" type="date" placeholder="Select date"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="Currently Based:">
+                        <el-input v-model="postForm.based" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="PASSPORT:">
+                        <el-input v-model="postForm.passport" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="LANGUAGES:">
+                        <el-input v-model="postForm.language" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+            <el-col :span="14" :offset="1">
+                <el-row class="resume-box">
+                    <el-col :span="12" class="resume-left">
+                        <img src="./static/image/avatar.png" alt="">
+                        <h5 class="personal-information-title">PERSONAL INFORMATION</h5>
+                        <div class="info-item mt30">
+                            <span class="label">Name:</span>
+                            <span class="info-value">{{postForm.name}}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">D.O.B:</span>
+                            <span class="info-value">{{postForm.DOB}}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Currently Based:</span>
+                            <span class="info-value">{{postForm.based}}</span>
+                        </div>
+                        <div class="info-item mt30">
+                            <span class="label">PASSPORT:</span>
+                            <span class="info-value">{{postForm.passport}}</span>
+                        </div>
+                        <div class="info-item mt30">
+                            <span class="label">LANGUAGES:</span>
+                            <span class="info-value">{{postForm.language}}</span>
+                        </div>
+                        <h5 class="personal-information-title mt30">SOCCER ABILITY</h5>
+                        <div class="info-item mt20">
+                            <span class="label">Primary Position:</span>
+                            <span class="info-value">{{postForm.primaryPosition}}</span>
+                        </div>
+                        <div class="info-item mt30">
+                            <span class="label">Secondary Position:</span>
+                            <span class="info-value"></span>
+                        </div>
+                        <div class="info-item mt30">
+                            <span class="label">Player's Strengths:</span>
+                            <span class="info-value"></span>
+                        </div>
+                    </el-col>
+                    <el-col :span="12" class="resume-right">
+                        <div class="title-box">
+                            <img src="./static/image/icon.jpeg" alt="">
+                            <div>
+                                <h3>ECHELON</h3>
+                                <h3>TALENT</h3>
+                            </div>
+                        </div>
+                        <div class="info-item mt80">
+                            <span class="label">Contact:</span>
+                            <span class="info-value">{{postForm.name}}</span>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-col>
+        </el-row>
+    </div>
+</body>
+<script>
+    ELEMENT.local = 'en'
+    var app = new Vue({
+      el: '#app',
+      data: {
+        postForm: {
+          avatar: '',
+          name: '',
+          DOB: '',
+          based: '',
+          passport: '',
+          language: '',
+          primaryPosition: ''
+        }
+      }
+    })
+</script>
+</html>

@@ -1,0 +1,54 @@
+#app{
+    padding: 50px 0;
+    margin: 0 auto;
+    width: 1200px;
+}
+.resume-box{
+    padding: 30px;
+    border: 1px solid #cccccc;
+    background: #fff;
+}
+.resume-left, .resume-right{
+    padding: 10px;
+}
+.resume-left img{
+    width: 182px;
+    height: 280px;
+}
+.personal-information-title{
+    font-size: 14px;
+    text-decoration: underline;
+
+}
+.info-item{
+    font-size: 0;
+}
+.info-item span{
+    display: inline-block;
+    vertical-align: middle;
+}
+.info-item span.label{
+    width: 150px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.info-item span.info-value{
+    font-size: 14px;
+}
+.title-box{
+    font-size: 0;
+}
+.title-box img{
+    display: inline-block;
+    vertical-align: middle;
+    width: 70px;
+    height: 70px;
+}
+.title-box >div{
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 30px;
+}
+.title-box >div h3{
+    font-size: 28px;
+}
