@@ -9,14 +9,15 @@
 </head>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://unpkg.com/element-ui@2.14.1/lib/index.js"></script>
+<script src="./static/jspdf/html2pdf.bundle.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/element-ui@2.14.1/lib/theme-chalk/index.css">
 <link rel="stylesheet" href="./static/style/reset.css">
 <link rel="stylesheet" href="./static/style/index.css">
 <body>
     <div id="app">
         <el-row>
-            <el-col :span="9">
-                <el-form v-model="postForm" label-width="150px">
+            <el-col :span="7">
+                <el-form v-model="postForm" label-width="150px" ref="postForm">
                     <el-form-item label="Name:">
                         <el-input v-model="postForm.name" placeholder="Please enter"></el-input>
                     </el-form-item>
@@ -32,70 +33,162 @@
                     <el-form-item label="LANGUAGES:">
                         <el-input v-model="postForm.language" placeholder="Please enter"></el-input>
                     </el-form-item>
+                    <el-form-item label="Primary Position:">
+                        <el-select class="w-100" clearable v-model="postForm.primaryPosition">
+                            <el-option v-for="(item, index) in primaryPosition" :key="index" :label="item" :value="item"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Secondary Position:">
+                        <el-select class="w-100" multiple clearable v-model="postForm.secondaryPosition">
+                            <el-option v-for="(item, index) in secondaryPosition" :key="index" :label="item" :value="item"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Player's Strengths:">
+                        <div class="mb10" v-for="(item, index) in postForm.strengths" :key="index">
+                            <el-input class="w-75"  placeholder="Please Enter" v-model="postForm.strengths[index]" ></el-input>
+                            <i class="operation-btn c-blue el-icon-circle-plus-outline" @click="addStrength"></i>
+                            <i v-if="index !== 0" class="operation-btn c-red el-icon-delete" @click="delStrength(index)"></i>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="Contact:">
+                        <el-input v-model="postForm.contact" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Address:">
+                        <el-input v-model="postForm.Contact" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Tel:">
+                        <el-input v-model="postForm.tel" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Mob:">
+                        <el-input v-model="postForm.mob" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Email:">
+                        <el-input v-model="postForm.email" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Height:">
+                        <el-input v-model="postForm.height" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Weight:">
+                        <el-input v-model="postForm.weight" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Nationality:">
+                        <el-input v-model="postForm.nationality" placeholder="Please enter"></el-input>
+                    </el-form-item>
+                    <el-form-item label="BIO:">
+                        <el-input v-model="postForm.BIO" type="textarea" placeholder="Please enter"></el-input>
+                    </el-form-item>
                 </el-form>
             </el-col>
-            <el-col :span="14" :offset="1">
-                <el-row class="resume-box">
-                    <el-col :span="12" class="resume-left">
-                        <img src="./static/image/avatar.png" alt="">
-                        <h5 class="personal-information-title">PERSONAL INFORMATION</h5>
-                        <div class="info-item mt30">
-                            <span class="label">Name:</span>
-                            <span class="info-value">{{postForm.name}}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">D.O.B:</span>
-                            <span class="info-value">{{postForm.DOB}}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="label">Currently Based:</span>
-                            <span class="info-value">{{postForm.based}}</span>
-                        </div>
-                        <div class="info-item mt30">
-                            <span class="label">PASSPORT:</span>
-                            <span class="info-value">{{postForm.passport}}</span>
-                        </div>
-                        <div class="info-item mt30">
-                            <span class="label">LANGUAGES:</span>
-                            <span class="info-value">{{postForm.language}}</span>
-                        </div>
-                        <h5 class="personal-information-title mt30">SOCCER ABILITY</h5>
-                        <div class="info-item mt20">
-                            <span class="label">Primary Position:</span>
-                            <span class="info-value">{{postForm.primaryPosition}}</span>
-                        </div>
-                        <div class="info-item mt30">
-                            <span class="label">Secondary Position:</span>
-                            <span class="info-value"></span>
-                        </div>
-                        <div class="info-item mt30">
-                            <span class="label">Player's Strengths:</span>
-                            <span class="info-value"></span>
-                        </div>
-                    </el-col>
-                    <el-col :span="12" class="resume-right">
-                        <div class="title-box">
-                            <img src="./static/image/icon.jpeg" alt="">
-                            <div>
-                                <h3>ECHELON</h3>
-                                <h3>TALENT</h3>
+            <el-col :span="17" class="clearfix">
+                <div class="resume-box flr" id="resumeBox">
+                    <el-row>
+                        <el-col :span="12" class="resume-left">
+                            <img src="./static/image/avatar.png" alt="">
+                            <h5 class="personal-information-title">PERSONAL INFORMATION</h5>
+                            <div class="info-item mt20">
+                                <span class="label">Name:</span>
+                                <span class="info-value">{{postForm.name}}</span>
                             </div>
-                        </div>
-                        <div class="info-item mt80">
-                            <span class="label">Contact:</span>
-                            <span class="info-value">{{postForm.name}}</span>
-                        </div>
-                    </el-col>
-                </el-row>
+                            <div class="info-item">
+                                <span class="label">D.O.B:</span>
+                                <span class="info-value">{{postForm.DOB}}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Currently Based:</span>
+                                <span class="info-value">{{postForm.based}}</span>
+                            </div>
+                            <div class="info-item mt20">
+                                <span class="label">PASSPORT:</span>
+                                <span class="info-value">{{postForm.passport}}</span>
+                            </div>
+                            <div class="info-item mt20">
+                                <span class="label">LANGUAGES:</span>
+                                <span class="info-value">{{postForm.language}}</span>
+                            </div>
+                            <h5 class="personal-information-title mt20">SOCCER ABILITY</h5>
+                            <div class="info-item mt20">
+                                <span class="label">Primary Position:</span>
+                                <span class="info-value">{{postForm.primaryPosition}}</span>
+                            </div>
+                            <div class="info-item mt20">
+                                <span class="label">Secondary Position:</span>
+                                <span class="info-value vertical-top">
+                                <p v-for="(item, index) in postForm.secondaryPosition" :key="index">{{item}}</p>
+                            </span>
+                            </div>
+                            <div class="info-item mt20">
+                                <span class="label">Player's Strengths:</span>
+                                <span class="info-value vertical-top">
+                                <p v-for="(item, index) in postForm.strengths" :key="index">{{item}}</p>
+                            </span>
+                            </div>
+                        </el-col>
+                        <el-col :span="12" class="resume-right">
+                            <div class="title-box">
+                                <img src="./static/image/icon.jpeg" alt="">
+                                <div>
+                                    <h3>ECHELON</h3>
+                                    <h3>TALENT</h3>
+                                </div>
+                            </div>
+                            <div class="info-item mt20">
+                                <span class="label">Contact:</span>
+                                <span class="info-value">{{postForm.contact}}</span>
+                            </div>
+                            <div class="info-item mt10">
+                                <span class="label">Address:</span>
+                                <span class="info-value">{{postForm.address}}</span>
+                            </div>
+                            <div class="info-item mt10">
+                                <span class="label">Tel:</span>
+                                <span class="info-value">{{postForm.tel}}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Mob:</span>
+                                <span class="info-value">{{postForm.mob}}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Email:</span>
+                                <span class="info-value">{{postForm.email}}</span>
+                            </div>
+                            <h3 class="mt10 fs28">OWEN PARRISH</h3>
+                            <P class="fs24 ft-w">Defence / Midfield</P>
+                            <div class="info-item mt20">
+                                <span class="label">Height:</span>
+                                <span class="info-value">{{postForm.height}}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Weight:</span>
+                                <span class="info-value">{{postForm.weight}}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Nationality:</span>
+                                <span class="info-value">{{postForm.nationality}}</span>
+                            </div>
+                            <img src="./static/image/position.jpeg" alt="" class="position-img">
+                        </el-col>
+                    </el-row>
+                    <div class="bio-box mt20">
+                        <h5>BIO:</h5>
+                        <P class="mt10">{{postForm.BIO}}</P>
+                        <img class="footer-img" src="./static/image/footer.png" alt="">
+                        <h4>Owen Parrish</h4>
+                    </div>
+                </div>
             </el-col>
         </el-row>
+        <div class="footer-box">
+            <el-button class="w140" @click="reset">Reset</el-button>
+            <el-button type="primary" :loading="loading" class="ml20 w140" @click="savePdfSubmit">Generate PDF</el-button>
+        </div>
     </div>
 </body>
 <script>
-    ELEMENT.local = 'en'
     var app = new Vue({
       el: '#app',
       data: {
+        primaryPosition: ['Defensive Midfield'],
+        secondaryPosition: ['Right Defense', 'Central Defense'],
         postForm: {
           avatar: '',
           name: '',
@@ -103,7 +196,81 @@
           based: '',
           passport: '',
           language: '',
-          primaryPosition: ''
+          primaryPosition: '',
+          secondaryPosition: [],
+          strengths: [''],
+          contact: '',
+          address: '',
+          tel: '',
+          mob: '',
+          email: '',
+          height: '',
+          weight: '',
+          nationality: '',
+          BIO: ''
+        },
+        loading: false
+      },
+      methods: {
+        addStrength() {
+          this.postForm.strengths.push('')
+        },
+        delStrength(index) {
+          this.postForm.strengths.splice(index, 1)
+        },
+        reset() {
+          this.postForm.name = ''
+          this.postForm.DOB = ''
+          this.postForm.based = ''
+          this.postForm.passport = ''
+          this.postForm.language = ''
+          this.postForm.primaryPosition = ''
+          this.postForm.secondaryPosition = []
+          this.postForm.strengths = ['']
+          this.postForm.contact = ''
+          this.postForm.address = ''
+          this.postForm.tel = ''
+          this.postForm.mob = ''
+          this.postForm.email = ''
+          this.postForm.height = ''
+          this.postForm.weight = ''
+          this.postForm.nationality = ''
+          this.postForm.BIO = ''
+        },
+        savePdf(htm, name, callback) {
+          var element = document.getElementById(htm)
+          html2pdf(element, {
+            filename: name + '.pdf',
+            image: {
+              type: 'png',
+              quality: 0.98
+            },
+            html2canvas: {
+              dpi: 192,
+              letterRendering: true,
+              scale: 2,
+              useCORS: true
+            },
+            jsPDF: {
+              unit: 'in',
+              format: 'a4',
+              orientation: 'portrait'
+            }
+          }).then(() => {
+            if (callback) {
+              callback()
+            }
+          })
+        },
+        savePdfSubmit() {
+          var _this = this
+          if (this.loading) {
+            return false
+          }
+          this.loading = true
+          this.savePdf('resumeBox', 'Echelon Talent', function () {
+            _this.loading = false
+          })
         }
       }
     })

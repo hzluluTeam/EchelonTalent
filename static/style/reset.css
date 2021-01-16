@@ -42,8 +42,17 @@ div:focus {
 h1, h2, h3, h4, h5, p{
     margin: 0px;
 }
+.w-75{
+    width: 75% !important;
+}
 .w-100{
     width: 100% !important;
+}
+.w140{
+    width: 140px;
+}
+.mt10{
+    margin-top: 10px;
 }
 .mt20{
     margin-top: 20px;
@@ -51,6 +60,36 @@ h1, h2, h3, h4, h5, p{
 .mt30{
     margin-top: 30px;
 }
-.mt80{
-    margin-top: 80px;
+.mb10{
+    margin-bottom: 10px;
+}
+.fs28{
+    font-size: 28px;
+}
+.fs24{
+    font-size: 24px;
+}
+.ft-w{
+    font-weight: bold;
+}
+.c-blue{
+    color: #4a90e2;
+}
+.c-red{
+    color: #EC5F5F;
+}
+
+.fll{
+    float: left;
+}
+.flr{
+    float: right;
+}
+.clearfix {
+    zoom: 1;
+}
+.clearfix:after{
+    content: '';
+    display: block;
+    clear: both;
 }
